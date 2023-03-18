@@ -1,63 +1,101 @@
+class Producto {
+  constructor(id, nombre, precio){
+    this.id = id
+    this.nombre = nombre 
+    this.precio = precio
+  }
+}
+//creando productos
+const pcGamer = new Producto(1,"pcgamer", 195300)
+const noteBook = new Producto(2,"notebook", 479990)
+const hardware = new Producto(3,"hardware", 21990)
+const accesorios = new Producto(4,"accesorios", 24700)
+
+//guardar productos
+const productos = [pcGamer,noteBook,hardware,accesorios]
+console.log(productos);
+
+let productoElegido = prompt("Elige el producto que deseas comprar: pcgamer-notebook-hardware-accesorios")
+//variable condicion del ciclo
+let seguirComprando = true
+const carrito = [] 
+
+while(seguirComprando === true){ 
+  const producto = productos.find(producto=>producto.nombre === productoElegido.toLocaleLowerCase().trim())
+  if(producto){
+    carrito.push(producto)
+  } else {
+    productoElegido = prompt("Elige un producto correcto: pcgamer-notebook-hardware-accesoriosg")
+    continue
+  }
+  const decision = prompt("Deseas seguir comprando? Si - no")
+  if (decision === "Si") {
+    productoElegido = prompt("Elige el producto que deseas comprar: pcgamer-notebook-hardware-accesorios")
+  } else {
+    seguirComprando = false
+  }
+}
+console.log(carrito);
+let totalCompra = 0 
+for (const producto of carrito) {
+  totalCompra = totalCompra + producto.precio
+}
+alert("El total de tu compra es: "+totalCompra)
+
+// crear clase Tarjeta
+
 class Tarjeta {
   constructor(nombre, id, tasa3, tasa6, tasa12) {
-    this.nombre = nombre;
-    this.id = id;
-    this.tasa3 = tasa3;
-    this.tasa6 = tasa6;
-    this.tasa12 = tasa12;
+    this.nombre = nombre
+    this.id = id
+    this.tasa3 = tasa3
+    this.tasa6 = tasa6
+    this.tasa12 = tasa12
   }
 }
 
-const visa = new Tarjeta("Visa", 1, 15, 25, 30);
-const mastercard = new Tarjeta("Mastercard", 2, 20, 35, 42);
-const naranja = new Tarjeta("Naranja", 3, 13, 29, 33);
-const american = new Tarjeta("American express", 4, 17, 31, 37);
 
-let utilizarTc = parseInt(
+const tarjetas = [
+  new Tarjeta("Visa", 1, 20, 25, 30),
+  new Tarjeta("Mastercard", 2, 25, 35, 50),
+  new Tarjeta("Naranja", 3, 10, 15, 20),
+  new Tarjeta("American Express", 4, 25, 30, 35),
+]
+
+let tarjetaDeseada = parseInt(
   prompt(
-    "Elige el numero de la tarjeta que deseas utilizar! 1. Tarjeta Visa - 2. Tarjeta Mastercard - 3. Tarjeta Naranja - 4. Tarjeta American express"
+    "Elige el numero de la tarjeta que deseas utilizar! 1. Tarjeta Visa - 2. Tarjeta Mastercard - 3. Tarjeta Naranja - 4. Tarjeta American Express"
   )
-);
+)
 
-let eligioTc = false;
+// variable para condicion de tarjeta
+let escogioTarjeta = false
 
-let infoTcElegida;
-
-while (eligioTc === false) {
-  if (utilizarTc === 1) {
-    eligioTc = true;
-    infoTcElegida = visa;
-  } else if (utilizarTc === 2) {
-    eligioTc = true;
-    infoTcElegida = mastercard;
-  } else if (utilizarTc === 3) {
-    eligioTc = true;
-    infoTcElegida = naranja;
-  } else if (utilizarTc === 4) {
-    eligioTc = true;
-    infoTcElegida = american;
-  } else {
-    utilizarTc = parseInt(
+//variable que contiene informacion de la tarjeta elegida
+let tarjeta
+while (escogioTarjeta === false) {
+  tarjeta = tarjetas.find((tarjeta => tarjeta.id === tarjetaDeseada))
+  if (!tarjeta) {
+    tarjetaDeseada = parseInt(
       prompt(
-        "Elige el numero de la tarjeta que deseas utilizar! 1. Tarjeta Visa - 2. Tarjeta Mastercard - 3. Tarjeta Naranja - 4. Tarjeta American express"
+        "Elige el numero de la tarjeta que deseas utilizar! 1. Tarjeta Visa - 2. Tarjeta Mastercard - 3. Tarjeta Naranja - 4. Tarjeta American Express"
       )
-    );
+    )
+  } else {
+    escogioTarjeta = true
   }
 }
 
-const montoSolicitado = parseInt(prompt("ingresa el monto del producto:"));
-
-const cuota3 = calcularCuota(montoSolicitado, infoTcElegida.tasa3, 3);
-const cuota6 = calcularCuota(montoSolicitado, infoTcElegida.tasa6, 6);
-const cuota12 = calcularCuota(montoSolicitado, infoTcElegida.tasa12, 12);
+const cuota3 = calcularCuota(totalCompra, tarjeta.tasa3, 3);
+const cuota6 = calcularCuota(totalCompra, tarjeta.tasa6, 6);
+const cuota12 = calcularCuota(totalCompra, tarjeta.tasa12, 12);
 console.log(cuota3, cuota6, cuota12);
 
-function calcularCuota(montoSolicitado, infoTcElegida) {
-  const cuota = (montoSolicitado * infoTcElegida) / 100 + montoSolicitado;
+function calcularCuota(totalCompra, tarjeta) {
+  const cuota = (totalCompra * tarjeta) / 100 + totalCompra;
   return cuota;
 }
 
 alert(
-  `El producto con ${infoTcElegida.nombre} te queda en: 1. ${cuota3} 3 cuotas- 2. ${cuota6} 6 cuotas - 3. ${cuota12} 12 cuotas`
+  `El producto con ${tarjeta.nombre} te queda: ${cuota3} en 3 cuotas, ${cuota6} en 6 cuotas y ${cuota12} en 12 cuotas.`
 );
-console.log("infoTc", infoTcElegida, montoSolicitado);

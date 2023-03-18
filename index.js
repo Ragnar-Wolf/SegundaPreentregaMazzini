@@ -28,7 +28,7 @@ while(seguirComprando === true){
     productoElegido = prompt("Elige un producto correcto: pcgamer-notebook-hardware-accesoriosg")
     continue
   }
-  const decision = prompt("Deseas seguir comprando? Si - no")
+  const decision = prompt("Deseas seguir comprando? Si - No")
   if (decision === "Si") {
     productoElegido = prompt("Elige el producto que deseas comprar: pcgamer-notebook-hardware-accesorios")
   } else {
